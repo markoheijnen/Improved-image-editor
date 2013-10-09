@@ -8,6 +8,11 @@ Version: 0.1
 Author URI: http://markoheijnen.com
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	header('Status: 403 Forbidden');
+	header('HTTP/1.1 403 Forbidden');
+}
+
 include 'inc/overwrite.php';
 
 class Improved_Image_Editor {
