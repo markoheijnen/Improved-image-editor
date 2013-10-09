@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Improved image editor
-Plugin URI: 
+Plugin URI: https://github.com/markoheijnen/Improved-image-editor
 Description: WordPress needs a better image editor UI so let this be it
 Author: Marko Heijnen 
 Version: 0.1
