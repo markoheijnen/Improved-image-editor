@@ -33,7 +33,7 @@ class Improved_Image_Editor {
 
 		wp_register_script( 'improved_image_editor', plugins_url( '/js/main.js', __FILE__ ), array( 'jquery', 'backbone' ) );
 
-		wp_register_style( 'improved_image_editor', plugins_url( 'css/metabox.css', __FILE__ ), array( 'media-views' ) );
+		wp_register_style( 'improved_image_editor', plugins_url( '/css/metabox.css', __FILE__ ), array( 'media-views' ) );
 	}
 
 	public function current_screen( $screen ) {
@@ -44,8 +44,10 @@ class Improved_Image_Editor {
 	}
 
 	public function load_template() {
-		include 'inc/templates.php';
+		wp_enqueue_script( 'improved_image_editor' );
+		wp_enqueue_style( 'improved_image_editor');
 
+		include 'inc/templates.php';
 		new Improved_Image_Editor_Templates();
 	}
 
