@@ -90,4 +90,4 @@ class Improved_Image_Editor {
 	}
 }
 
-new Improved_Image_Editor;
+$improved_image_editor = new Improved_Image_Editor;
