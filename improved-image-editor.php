@@ -44,6 +44,14 @@ class Improved_Image_Editor {
 		return true;
 	}
 
+	public static function get_image_size_info( $image_size ) {
+		if ( isset( self::$size_info[ $image_size ] ) ) {
+			return self::$size_info[ $image_size ];
+		}
+
+		return array();
+	}
+
 
 	public function register_scripts_styles() {
 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
@@ -99,6 +107,25 @@ class Improved_Image_Editor {
 		}
 
 		return $image;
+	}
+
+
+	public static function _update_image( $image, $image_size ) {
+		$info = self::get_image_size_info( $image_size );
+
+		if ( isset( $info['quality'] ) ) {
+			$image->set_quality( $info['quality'] );
+		}
+
+		if ( isset( $info['filters'] ) ) {
+			foreach ( $info['filters'] as $filter ) {
+				$method = 'filter_' . $filter;
+
+				if ( method_exists( $image, $method ) ) {
+					call_user_func( array( $image, $method ) );
+				}
+			}
+		}
 	}
 
 }
