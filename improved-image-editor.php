@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Improved_Image_Editor {
 	const version = '0.1';
 
+	private static $size_info = array();
+
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_scripts_styles' ) );
 		add_action( 'current_screen', array( $this, 'current_screen' ) );
@@ -25,6 +27,23 @@ class Improved_Image_Editor {
 
 		add_filter( 'wp_image_editor_before_change', array( $this, 'wp_image_editor_before_change' ), 10, 2 );
 	}
+
+
+	public static function register_image_size_info( $image_size, $info ) {
+		if ( ! is_array( $info ) ) {
+			return false;
+		}
+
+		if ( isset( self::$size_info[ $image_size ] ) ) {
+			self::$size_info[ $image_size ] = array_merge( $info, self::$size_info[ $image_size ] );
+		}
+		else {
+			self::$size_info[ $image_size ] = $info;
+		}
+
+		return true;
+	}
+
 
 	public function register_scripts_styles() {
 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
@@ -81,6 +100,7 @@ class Improved_Image_Editor {
 
 		return $image;
 	}
+
 }
 
 $improved_image_editor = new Improved_Image_Editor;
