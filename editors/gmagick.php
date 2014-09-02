@@ -454,4 +454,31 @@ class Improved_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		return true;
 	}
+
+
+
+	public function filter_grayscale() {
+	}
+
+	public function filter_sepia() {
+	}
+
+	public function filter_contrast() {
+	}
+
+	public function filter_edge() {
+	}
+
+	public function filter_emboss() {
+	}
+
+	public function filter_gaussian_blur() {
+	}
+
+	public function filter_selective_blur() {
+	}
+
+	public function filter_negative() {
+	}
+
 }
