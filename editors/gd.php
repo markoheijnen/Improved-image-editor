@@ -26,6 +26,7 @@ class Improved_Image_Editor_GD extends WP_Image_Editor_GD {
 	public function multi_resize( $sizes ) {
 		$metadata = array();
 		$orig_size = $this->size;
+		$orig_image = $this->image;
 		$orig_quality = $this->get_quality();
 
 		foreach ( $sizes as $size => $size_data ) {
@@ -44,14 +45,14 @@ class Improved_Image_Editor_GD extends WP_Image_Editor_GD {
 				$size_data['crop'] = false;
 			}
 
-			$image = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
+			$this->image = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
-			if( ! is_wp_error( $image ) ) {
+			if( ! is_wp_error( $this->image ) ) {
 				Improved_Image_Editor::_update_image( $this, $size );
 
-				$resized = $this->_save( $image );
+				$resized = $this->_save( $this->image );
 
-				imagedestroy( $image );
+				imagedestroy( $this->image );
 
 				if ( ! is_wp_error( $resized ) && $resized ) {
 					unset( $resized['path'] );
@@ -61,6 +62,7 @@ class Improved_Image_Editor_GD extends WP_Image_Editor_GD {
 
 			$this->size = $orig_size;
 			$this->set_quality( $orig_quality );
+			$this->image = $orig_image;
 		}
 
 		return $metadata;
