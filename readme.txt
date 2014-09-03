@@ -5,6 +5,7 @@ Tags: tabs, image, editor, gd, imagick, gmagick
 Requires at least: 4.0
 Tested up to: 4.0
 Stable tag: 0.1
+License: GPLv2 or later
 
 Adds more image edit functionality to your WordPress installatin
 
