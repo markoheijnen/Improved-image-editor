@@ -19,10 +19,14 @@ You can do this by calling Improved_Image_Editor::register_image_size_info(). He
 - zoom
 - filters (work in progress)
 
-It includes the functionality of the following plugins I build:
+It also includes the functionality of the following plugins I build:
 - Gmagick
 - Improved GD Image Editor 
 - WP_Image (will be included soon)
+
+
+Future plans are to build a settings page so users can select the settings per image size themself.
+I also have ideas to extend the current image editor UI with options to select the focus point per image size and build auto detection of the focus point. With every feature we add the main focus will be to build a decent API for it so at certain points it could be integrated in WordPress itself.
 
 == Installation ==
 
