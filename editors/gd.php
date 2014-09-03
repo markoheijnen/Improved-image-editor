@@ -45,10 +45,12 @@ class Improved_Image_Editor_GD extends WP_Image_Editor_GD {
 				$size_data['crop'] = false;
 			}
 
+			$size_data = Improved_Image_Editor::_editor_update_size_data( $size_data, $this, $size );
+
 			$this->image = $this->_resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 			if( ! is_wp_error( $this->image ) ) {
-				Improved_Image_Editor::_update_image( $this, $size );
+				Improved_Image_Editor::_editor_update_image( $this, $size );
 
 				$resized = $this->_save( $this->image );
 

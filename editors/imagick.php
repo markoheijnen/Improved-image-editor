@@ -50,10 +50,12 @@ class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				$size_data['crop'] = false;
 			}
 
+			$size_data = Improved_Image_Editor::_editor_update_size_data( $size_data, $this, $size );
+
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 			if( ! is_wp_error( $resize_result ) ) {
-				Improved_Image_Editor::_update_image( $this, $size );
+				Improved_Image_Editor::_editor_update_image( $this, $size );
 
 				$resized = $this->_save( $this->image );
 
