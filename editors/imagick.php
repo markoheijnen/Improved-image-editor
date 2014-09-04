@@ -103,11 +103,11 @@ class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	}
 
 	public function filter_selective_blur() {
-		$this->image->>blurImage( 5, 3 );
+		$this->image->blurImage( 5, 3 );
 	}
 
 	public function filter_negative() {
-		$this->image->>negateImage( false );
+		$this->image->negateImage( false );
 	}
 
 }
