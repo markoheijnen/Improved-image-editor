@@ -83,24 +83,31 @@ class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	}
 
 	public function filter_sepia() {
+		$this->image->sepiaToneImage( 80 );
 	}
 
 	public function filter_contrast() {
+		$this->image->contrastImage( 1 );
 	}
 
 	public function filter_edge() {
+		$this->image->edgeImage( 0 );
 	}
 
 	public function filter_emboss() {
+		$this->image->embossImage( 0, 1 );
 	}
 
 	public function filter_gaussian_blur() {
+		$this->image->gaussianBlurImage( 2, 3 );
 	}
 
 	public function filter_selective_blur() {
+		$this->image->>blurImage( 5, 3 );
 	}
 
 	public function filter_negative() {
+		$this->image->>negateImage( false );
 	}
 
 }
