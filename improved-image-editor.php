@@ -20,6 +20,13 @@ class Improved_Image_Editor {
 	private static $current_image_size = false;
 
 	public function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'load' ) );
+	}
+
+
+	public function load() {
+		include 'inc/class.wp-image.php';
+
 		add_action( 'init', array( $this, 'register_scripts_styles' ) );
 		add_action( 'current_screen', array( $this, 'current_screen' ) );
 		add_action( 'wp_enqueue_media', array( $this, 'load_template' ) );
