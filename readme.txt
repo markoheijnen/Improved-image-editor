@@ -44,5 +44,8 @@ Coming soon.
 
 == Changelog ==
 
+= 0.2.0 ( 2012-9-? ) =
+* Add WP_Image class
+
 = 0.1.0 ( 2012-9-4 ) =
 * First version to show people the possibilities
