@@ -4,7 +4,7 @@ Plugin Name: Improved image editor
 Plugin URI: https://github.com/markoheijnen/Improved-image-editor
 Description: WordPress needs a better image editor UI so let this be it
 Author: Marko Heijnen 
-Version: 0.1
+Version: 0.2-dev
 Author URI: http://markoheijnen.com
 */
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Improved_Image_Editor {
-	const version = '0.1';
+	const version = '0.2-dev';
 
 	private static $size_info = array();
 	private static $current_image_size = false;
