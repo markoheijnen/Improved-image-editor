@@ -33,7 +33,48 @@ class WP_Image {
 	}
 
 	/**
-	 * Creates a new image size for an attachment
+	 * Regenerate a certain image size.
+	 *
+	 * @access public
+	 *
+	 * @param int $max_w
+	 * @param int $max_h
+	 * @param boolean $crop
+	 * @return boolean|WP_Error
+	 */
+	public function regenerate_image_size( $name ) {
+		global $_wp_additional_image_sizes;
+
+		if ( isset( $_wp_additional_image_sizes[ $name ] ) ) {
+			$size_data = $_wp_additional_image_sizes[ $name ];
+			$editor    = $this->get_editor();
+
+			if ( is_wp_error( $editor ) ) {
+				return $editor;
+			}
+
+			if ( ! isset( $size_data['width'] ) ) {
+				$size_data['width'] = null;
+			}
+			if ( ! isset( $size_data['height'] ) ) {
+				$size_data['height'] = null;
+			}
+
+			if ( ! isset( $size_data['crop'] ) ) {
+				$size_data['crop'] = false;
+			}
+
+			$this->get_metadata();
+
+			$editor->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
+			$resized = $editor->save();
+
+			return $this->store_image( $name, $resized );
+		}
+	}
+
+	/**
+	 * Creates a new image size for an attachment.
 	 *
 	 * @access public
 	 *
@@ -48,7 +89,6 @@ class WP_Image {
 		}
 
 		$editor = $this->get_editor();
-		$this->get_metadata();
 
 		if ( $force == false && isset( $this->metadata['sizes'][ $name ] ) ) {
 			return new WP_Error( 'image_exists', __( 'This image size already exists' ) );
