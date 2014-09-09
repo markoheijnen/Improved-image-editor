@@ -17,6 +17,7 @@ It currently focuses on the API side to give developers great tools to manipulat
 You can do this by calling Improved_Image_Editor::register_image_size_info(). Here you can specify the following arguments:
 - quality
 - zoom
+- auto_generate
 - filters (work in progress)
 
 It also includes the functionality of the following plugins I build:
@@ -45,7 +46,9 @@ Coming soon.
 == Changelog ==
 
 = 0.2.0 ( 2012-9-? ) =
-* Add WP_Image class
+* Add WP_Image class.
+* Generate image size when it doesn't exist.
+* Add ability to not generate an image size.
 
 = 0.1.0 ( 2012-9-4 ) =
-* First version to show people the possibilities
+* First version to show people the possibilities.
