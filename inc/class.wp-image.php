@@ -37,9 +37,7 @@ class WP_Image {
 	 *
 	 * @access public
 	 *
-	 * @param int $max_w
-	 * @param int $max_h
-	 * @param boolean $crop
+	 * @param string $name The name of the image size
 	 * @return boolean|WP_Error
 	 */
 	public function regenerate_image_size( $name ) {
@@ -78,6 +76,7 @@ class WP_Image {
 	 *
 	 * @access public
 	 *
+	 * @param string $name The name of the image size
 	 * @param int $max_w
 	 * @param int $max_h
 	 * @param boolean $crop
