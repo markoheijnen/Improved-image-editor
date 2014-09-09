@@ -26,9 +26,9 @@ class Improved_Image_Editor {
 
 	public function load() {
 		include 'inc/class.wp-image.php';
-		include 'inc/regenerate.php';
+		include 'inc/generate.php';
 
-		new Improved_Image_Editor_Regenerate();
+		new Improved_Image_Editor_Generate();
 
 		add_action( 'init', array( $this, 'register_scripts_styles' ) );
 		add_action( 'current_screen', array( $this, 'current_screen' ) );

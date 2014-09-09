@@ -1,6 +1,6 @@
 <?php
 
-class Improved_Image_Editor_Regenerate {
+class Improved_Image_Editor_Generate {
 
 	public function __construct() {
 		add_filter( 'image_downsize', array( $this, 'generate_image_size' ), 10, 3 );	
