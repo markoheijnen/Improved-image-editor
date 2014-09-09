@@ -11,7 +11,6 @@ class Improved_Image_Editor_Regenerate {
 			$intermediate = image_get_intermediate_size( $id, $size );
 			
 			if ( ! $intermediate ) {
-				echo 'marko';
 				$image = new WP_Image( $id );
 				$image->regenerate_image_size( $size );
 			}
