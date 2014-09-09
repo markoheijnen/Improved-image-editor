@@ -246,9 +246,17 @@ class Improved_Image_Editor_Gmagick extends WP_Image_Editor {
 				$size_data['crop'] = false;
 			}
 
+			$size_data = Improved_Image_Editor::_editor_update_size_data( $size_data, $this, $size );
+
+			if ( ! $size_data ) {
+				continue;
+			}
+
 			$resize_result = $this->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
 			if( ! is_wp_error( $resize_result ) ) {
+				Improved_Image_Editor::_editor_update_image( $this, $size );
+
 				$resized = $this->_save( $this->image );
 
 				$this->image->clear();

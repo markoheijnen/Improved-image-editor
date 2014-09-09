@@ -132,6 +132,10 @@ class Improved_Image_Editor {
 			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 20, 6 );
 		}
 
+		if ( isset( $info['auto_generate'] ) && ! $info['auto_generate'] ) {
+			return false;
+		}
+
 		return $size_data;
 	}
 
