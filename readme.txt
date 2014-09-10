@@ -17,7 +17,7 @@ It currently focuses on the API side to give developers great tools to manipulat
 You can do this by calling Improved_Image_Editor::register_image_size_info(). Here you can specify the following arguments:
 - quality
 - zoom
-- auto_generate
+- immediate
 - filters (work in progress)
 
 It also includes the functionality of the following plugins I build:
