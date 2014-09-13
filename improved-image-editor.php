@@ -25,7 +25,10 @@ class Improved_Image_Editor {
 
 
 	public function load() {
-		include 'inc/class.wp-image.php';
+		if ( ! class_exists('WP_Image') ) {
+			include 'inc/class.wp-image.php';
+		}
+
 		include 'inc/generate.php';
 
 		new Improved_Image_Editor_Generate();
