@@ -138,7 +138,7 @@ class Improved_Image_Editor {
 
 		$info['immediate'] = apply_filters( 'improved_image_editor_immediate_generate', $info['immediate'], $image_size );
 
-		if ( ! $info['immediate'] ) {
+		if ( ! $info['immediate'] && $image_size != 'thumbnail' ) { // What about medium and large.
 			return false;
 		}
 
