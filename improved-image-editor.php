@@ -76,7 +76,7 @@ class Improved_Image_Editor {
 	}
 
 	public function current_screen( $screen ) {
-		if( $screen->base != 'post' || $screen->post_type != 'attachment' ) {
+		if ( $screen->base != 'post' || $screen->post_type != 'attachment' ) {
 			return;
 		}
 
@@ -130,16 +130,15 @@ class Improved_Image_Editor {
 
 		$info = self::get_image_size_info( $image_size );
 		$info['immediate'] = isset( $info['immediate'] ) ? $info['immediate'] : true;
-
-		if ( isset( $info['zoom'] ) ) {
-			// Higher priority since we should override the default filters.
-			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 20, 6 );
-		}
-
 		$info['immediate'] = apply_filters( 'improved_image_editor_immediate_generate', $info['immediate'], $image_size );
 
 		if ( ! $info['immediate'] && $image_size != 'thumbnail' ) { // What about medium and large.
 			return false;
+		}
+
+		if ( isset( $info['zoom'] ) ) {
+			// Higher priority since we should override the default filters.
+			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 20, 6 );
 		}
 
 		return $size_data;
