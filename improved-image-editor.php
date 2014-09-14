@@ -141,6 +141,10 @@ class Improved_Image_Editor {
 			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 20, 6 );
 		}
 
+		if ( isset( $info['grid'] ) ) {
+			$size_data = self::_grid_size_data( $size_data, $info['grid'], $image->get_size() );
+		}
+
 		return $size_data;
 	}
 
@@ -239,6 +243,33 @@ class Improved_Image_Editor {
 		// the return array matches the parameters to imagecopyresampled()
 		// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
 		return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
+	}
+
+
+	private static function _grid_size_data( $size_data, $grid_options, $image_size ) {
+		$calc = array();
+
+		if ( $size_data['crop'] ) {
+			$calc['div'] = ( $image_size['height'] / $size_data['height'] ) / ( $image_size['width'] / $size_data['width'] );
+		}
+		else {
+			$calc['div'] = $image_size['height'] / $image_size['width'];
+		}
+
+		if ( $calc['div'] > 1 ) {
+			$calc['type']  = 'h';
+			$calc['ratio'] = round( $calc['div'] );
+		}
+		else {
+			$calc['type']  = 'w';
+			$calc['ratio'] = round( 1 / $calc['div'] );
+		}
+
+		if ( isset( $grid_options[ $calc['type'] . '-' . $calc['ratio'] ] ) ) {
+			$size_data = array_merge( $size_data, $grid_options[ $calc['type'] . '-' . $calc['ratio'] ] );
+		}
+
+		return $size_data;
 	}
 
 }
