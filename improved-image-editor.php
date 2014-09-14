@@ -49,7 +49,7 @@ class Improved_Image_Editor {
 		}
 
 		if ( isset( self::$size_info[ $image_size ] ) ) {
-			self::$size_info[ $image_size ] = array_merge( $info, self::$size_info[ $image_size ] );
+			self::$size_info[ $image_size ] = array_merge( self::$size_info[ $image_size ], $info );
 		}
 		else {
 			self::$size_info[ $image_size ] = $info;
