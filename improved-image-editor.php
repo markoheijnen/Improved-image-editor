@@ -39,6 +39,7 @@ class Improved_Image_Editor {
 
 		add_filter( 'wp_image_editors', array( $this, 'wp_image_editors' ) );
 
+		add_filter( 'editor_max_image_size', array( $this, 'editor_max_image_size' ), 10, 3 );
 		add_filter( 'wp_image_editor_before_change', array( $this, 'wp_image_editor_before_change' ), 10, 2 );
 	}
 
@@ -106,6 +107,18 @@ class Improved_Image_Editor {
 		$editors = array_merge( $new_editors, $editors );
 
 		return $editors;
+	}
+
+
+	public function editor_max_image_size( $max_size, $image_size, $context ) {
+		$info = self::get_image_size_info( $image_size );
+
+		if ( isset( $info['grid'] ) ) {
+			$max_size[0] = $max_size[0] * 3;
+			$max_size[1] = $max_size[1] * 3;
+		}
+
+		return $max_size;
 	}
 
 
