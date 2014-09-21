@@ -151,7 +151,7 @@ class Improved_Image_Editor {
 
 		if ( isset( $info['zoom'] ) ) {
 			// Higher priority since we should override the default filters.
-			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 20, 6 );
+			add_filter( 'image_resize_dimensions', array( __CLASS__, '_update_image_dimensions' ), 100, 6 );
 		}
 
 		if ( isset( $info['grid'] ) ) {
