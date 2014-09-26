@@ -3,6 +3,48 @@
 class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 	/**
+	 * Resizes current image.
+	 *
+	 * At minimum, either a height or width must be provided.
+	 * If one of the two is set to null, the resize will
+	 * maintain aspect ratio according to the provided dimension.
+	 *
+	 * @since 3.5.0
+	 * @access public
+	 *
+	 * @param  int|null $max_w Image width.
+	 * @param  int|null $max_h Image height.
+	 * @param  boolean  $crop
+	 * @return boolean|WP_Error
+	 */
+	public function resize( $max_w, $max_h, $crop = false ) {
+		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) )
+			return true;
+
+		$dims = image_resize_dimensions( $this->size['width'], $this->size['height'], $max_w, $max_h, $crop );
+		if ( ! $dims )
+			return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
+		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
+
+		if ( $crop ) {
+			return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
+		}
+
+		try {
+			/**
+			 * @TODO: Thumbnail is more efficient, given a newer version of Imagemagick.
+			 * $this->image->thumbnailImage( $dst_w, $dst_h );
+			 */
+			$this->image->scaleImage( $dst_w, $dst_h );
+		}
+		catch ( Exception $e ) {
+			return new WP_Error( 'image_resize_error', $e->getMessage() );
+		}
+
+		return $this->update_size( $dst_w, $dst_h );
+	}
+
+	/**
 	 * Resize multiple images from a single source.
 	 *
 	 * @since 3.5.0
