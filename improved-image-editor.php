@@ -60,7 +60,7 @@ class Improved_Image_Editor {
 	}
 
 	public static function get_image_size_info( $image_size ) {
-		if ( isset( self::$size_info[ $image_size ] ) ) {
+		if ( is_string( $image_size ) && isset( self::$size_info[ $image_size ] ) ) {
 			return self::$size_info[ $image_size ];
 		}
 
