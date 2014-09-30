@@ -18,28 +18,39 @@ class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 * @return boolean|WP_Error
 	 */
 	public function resize( $max_w, $max_h, $crop = false ) {
-		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) )
+		if ( ( $this->size['width'] == $max_w ) && ( $this->size['height'] == $max_h ) ) {
 			return true;
+		}
 
 		$dims = image_resize_dimensions( $this->size['width'], $this->size['height'], $max_w, $max_h, $crop );
-		if ( ! $dims )
+		if ( ! $dims ) {
 			return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
+		}
+
 		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
 
-		if ( $crop ) {
-			return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
+		$image = $this->image->coalesceImages();
+
+		foreach ( $image as $frame ) {
+			$this->image = $frame;
+
+			if ( $crop ) {
+				return $this->crop( $src_x, $src_y, $src_w, $src_h, $dst_w, $dst_h );
+			}
+
+			try {
+				/**
+				 * @TODO: Thumbnail is more efficient, given a newer version of Imagemagick.
+				 * $this->image->thumbnailImage( $dst_w, $dst_h );
+				 */
+				$frame->thumbnailImage( $dst_w, $dst_h );
+			}
+			catch ( Exception $e ) {
+				return new WP_Error( 'image_resize_error', $e->getMessage() );
+			}
 		}
 
-		try {
-			/**
-			 * @TODO: Thumbnail is more efficient, given a newer version of Imagemagick.
-			 * $this->image->thumbnailImage( $dst_w, $dst_h );
-			 */
-			$this->image->scaleImage( $dst_w, $dst_h );
-		}
-		catch ( Exception $e ) {
-			return new WP_Error( 'image_resize_error', $e->getMessage() );
-		}
+		$this->image = $image->deconstructImages();
 
 		return $this->update_size( $dst_w, $dst_h );
 	}
