@@ -171,7 +171,7 @@ class Improved_Image_Editor {
 		}
 
 		if ( isset( $info['filters'] ) ) {
-			foreach ( $info['filters'] as $filter ) {
+			foreach ( (array) $info['filters'] as $filter ) {
 				$method = 'filter_' . $filter;
 
 				if ( method_exists( $image, $method ) ) {
