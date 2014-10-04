@@ -4,7 +4,7 @@ class Improved_Image_Editor_Generate {
 
 	public function __construct() {
 		add_filter( 'image_downsize', array( $this, 'generate_image_size' ), 10, 3 );
-		add_action( 'delete_attachment', array( __CLASS__, '_delete_attachment' ) );
+		add_action( 'delete_attachment', array( $this, '_delete_attachment' ) );
 	}
 
 	public function generate_image_size( $image_data, $id, $size ) {

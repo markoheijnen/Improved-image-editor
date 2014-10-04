@@ -62,12 +62,20 @@ class WP_Image {
 				$size_data['crop'] = false;
 			}
 
+			$size_data = Improved_Image_Editor::_editor_update_size_data( $size_data, $editor, $name );
+
 			$this->get_metadata();
 
-			$editor->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
-			$resized = $editor->save();
+			$resize_result = $editor->resize( $size_data['width'], $size_data['height'], $size_data['crop'] );
 
-			return $this->store_image( $name, $resized );
+			if( ! is_wp_error( $resize_result ) ) {
+				Improved_Image_Editor::_editor_update_image( $editor, $name );
+				$resized = $editor->save();
+
+				return $this->store_image( $name, $resized );
+			}
+
+			return $resize_result;
 		}
 	}
 
