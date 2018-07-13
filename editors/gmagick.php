@@ -93,10 +93,38 @@ class Improved_Image_Editor_Gmagick extends WP_Image_Editor {
 			$this->image = new Gmagick( $this->file );
 
 			// Select the first frame to handle animated images properly
-			if ( is_callable( array( $this->image, 'setimageindex' ) ) )
+			if ( is_callable( array( $this->image, 'setimageindex' ) ) ) {
 				$this->image->setimageindex(0);
+			}
 
 			$this->mime_type = $this->get_mime_type( $this->image->getimageformat() );
+
+			if ( in_array( $this->mime_type, array( 'image/jpeg', 'image/tiff' ) ) ) {
+				$exif = exif_read_data($this->file);
+				$orientation = 0;
+
+				if ( isset($exif["Orientation"]) ) {
+					$orientation = $exif["Orientation"];
+				}
+				elseif ( isset($exif["IFD0"]) && isset($exif["IFD0"]["Orientation"]) ) {
+					$orientation = $exif["IFD0"]["Orientation"];
+				}
+				elseif ( isset($exif["COMPUTED"]) && isset($exif["COMPUTED"]["Orientation"]) ) {
+					$orientation = $exif["COMPUTED"]["Orientation"];
+				}
+
+				switch($orientation) {
+					case 3:
+						$this->rotate(180);
+						break;
+					case 6:
+						$this->rotate(-90);
+						break;
+					case 8:
+						$this->rotate(90);
+					break;
+				}
+			}
 		}
 		catch ( Exception $e ) {
 			return new WP_Error( 'invalid_image', $e->getMessage(), $this->file );

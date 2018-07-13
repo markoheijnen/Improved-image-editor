@@ -2,6 +2,42 @@
 
 class Improved_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
+ 	/**
+	 * Loads image from $this->file into new GD Resource.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return bool|WP_Error True if loaded successfully; WP_Error on failure.
+	 */
+	public function load() {
+		$loaded = parent::load();
+
+		if ($loaded) {
+			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) ) {
+				$orientation = $this->image->getImageOrientation();
+
+				switch($orientation) {
+					case imagick::ORIENTATION_BOTTOMRIGHT:
+						$this->rotate(180);
+						break;
+					case imagick::ORIENTATION_RIGHTTOP:
+						$this->rotate(90);
+						break;
+					case imagick::ORIENTATION_LEFTBOTTOM:
+						$this->rotate(-90);
+						break;
+				}
+
+				if ($orientation) {
+					$this->image->setImageOrientation(imagick::ORIENTATION_UNDEFINED);
+				}
+			}
+		}
+
+		return $loaded;
+	}
+
+
 	/**
 	 * Resizes current image.
 	 *

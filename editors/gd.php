@@ -2,6 +2,48 @@
 
 class Improved_Image_Editor_GD extends WP_Image_Editor_GD {
 
+ 	/**
+	 * Loads image from $this->file into new GD Resource.
+	 *
+	 * @since 3.5.0
+	 *
+	 * @return bool|WP_Error True if loaded successfully; WP_Error on failure.
+	 */
+	public function load() {
+		$loaded = parent::load();
+
+		if ($loaded) {
+			if ( in_array( $this->mime_type, array( 'image/jpeg', 'image/tiff' ) ) ) {
+				$exif = exif_read_data($this->file);
+				$orientation = 0;
+
+				if ( isset($exif["Orientation"]) ) {
+					$orientation = $exif["Orientation"];
+				}
+				elseif ( isset($exif["IFD0"]) && isset($exif["IFD0"]["Orientation"]) ) {
+					$orientation = $exif["IFD0"]["Orientation"];
+				}
+				elseif ( isset($exif["COMPUTED"]) && isset($exif["COMPUTED"]["Orientation"]) ) {
+					$orientation = $exif["COMPUTED"]["Orientation"];
+				}
+
+				switch($orientation) {
+					case 3:
+						$this->rotate(180);
+						break;
+					case 6:
+						$this->rotate(-90);
+						break;
+					case 8:
+						$this->rotate(90);
+					break;
+				}
+			}
+		}
+
+		return $loaded;
+	}
+
 	/**
 	 * Resize multiple images from a single source.
 	 *
